@@ -1,0 +1,9 @@
+.realTime {
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    border: none;
+    padding: 3px 38px;
+    font-size: 13px;
+    text-transform: uppercase;
+}

@@ -1,0 +1,57 @@
+/* src/components/Register.css */
+.bg {
+    padding-bottom: 50px;
+    display: flex;
+    height: 100%;
+}
+
+.login {
+    padding: 20px;
+    padding-left: 50px;
+    width: 100%;
+    max-width: 860px;
+    font-size: 14px;
+}
+
+.uperCase {
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.control {
+    width: 100%;
+    padding: 10px;
+    height: 28px;
+    margin-bottom: 20px;
+    border: 1px solid #c5c5c5; 
+    background-color: #ffffff; 
+}
+
+.control:focus {
+    border-color: #000000; 
+    outline: none;
+}
+
+.btnLogin {
+    width: 100%;
+    padding: 5px;
+    background-color: rgb(0, 0, 0);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+}
+
+.btnLogin:hover {
+    color: #ffbf00; 
+}
+
+.login a {
+    color: #000000 !important; 
+    text-decoration: none !important;
+}
+
+.error {
+    color: #ff6347;
+    margin-top: 10px;
+}

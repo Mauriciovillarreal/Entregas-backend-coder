@@ -1,0 +1,19 @@
+.containerCard {
+    margin-top: 85px;
+    display: grid;
+    grid-template-columns: 18% 82%;
+}
+
+aside {
+    margin: 15px;
+}
+
+aside h5 {
+    margin-top: 15px;
+}
+
+aside label {
+    text-transform: uppercase;
+    padding-left: 5px;
+    font-size: 14px;
+}
