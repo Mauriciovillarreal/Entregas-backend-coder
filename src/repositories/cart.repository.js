@@ -10,7 +10,7 @@ class CartsRepository {
     deleteProduct = async (cId, pId) => await this.CartDao.deleteProduct(cId, pId);
     updateProductQuantity = async (cartId, productId, quantity) => await this.CartDao.updateProductQuantity(cartId, productId, quantity);
     addProductToCart = async (cartId, productId) => await this.CartDao.addProductToCart(cartId, productId);
-    updateCart = async (cartId, updateData) => await this.CartDao.updateCart(cartId, updateData); // Add this line
+    updateCart = async (cartId, updateData) => await this.CartDao.updateCart(cartId, updateData)
 }
 
 module.exports = CartsRepository;

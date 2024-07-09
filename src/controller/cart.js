@@ -108,8 +108,6 @@ class CartController {
             }
 
             const userId = req.user.email
-
-            console.log("user", userId)
     
             const cart = await cartService.getCart(cid);
             if (!cart || !cart.products || cart.products.length === 0) {

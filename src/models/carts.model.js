@@ -15,7 +15,6 @@ const cartSchema = new Schema({
     ]
 });
 
-// Middleware to populate product details in different find queries
 const autoPopulateProducts = function (next) {
     this.populate('products.product');
     next();

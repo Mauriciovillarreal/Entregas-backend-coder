@@ -24,30 +24,38 @@ class CartsDaoMongo {
 
     async deleteProduct(cId, pId) {
         try {
-            const cart = await this.model.findById(cId)
+            // Buscar el carrito y poblar los productos
+            const cart = await this.model.findById(cId).populate('products.product');
             if (!cart) {
-                throw new Error('Cart not found')
+                throw new Error('Cart not found');
             }
-            cart.products = cart.products.filter(product => product.product.toString() !== pId)
-            await cart.save()
-            return await this.model.findById(cId).populate('products.product').exec()
+    
+            // Filtrar el producto del carrito
+            cart.products = cart.products.filter(product => product.product._id.toString() !== pId);
+    
+            // Guardar el carrito actualizado
+            await cart.save();
+    
+            // Devolver el carrito actualizado con los productos poblados
+            return await this.model.findById(cId).populate('products.product').exec();
         } catch (error) {
-            throw new Error('Error while deleting product from cart: ' + error.message)
+            throw new Error('Error while deleting product from cart: ' + error.message);
         }
     }
+    
 
     async updateProductQuantity(cartId, productId, quantity) {
         try {
-            const cart = await this.model.findById(cartId)
+            const cart = await this.model.findById(cartId).populate('products.product');
             if (!cart) {
                 throw new Error('Cart not found')
             }
-            const product = cart.products.find(prod => prod.product.toString() === productId)
-            if (!product) {
-                throw new Error('Product not found in cart')
+            const productIndex = cart.products.findIndex(item => item.product._id.toString() === productId);
+            if (productIndex === -1) {
+                throw new Error('Product not found in cart');
             }
-            product.quantity = quantity
-            await cart.save()
+            cart.products[productIndex].quantity = quantity;
+            await cart.save();
             return cart
         } catch (error) {
             throw new Error('Error while updating product quantity: ' + error.message)
