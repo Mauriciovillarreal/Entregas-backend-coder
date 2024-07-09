@@ -1,0 +1,28 @@
+.chatWidget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1000; /* Ajusta el z-index para que quede por debajo del offcanvas-cart */
+}
+
+.chatWidget img {
+    width: 50px;
+    height: 50px;
+}
+
+.chatPopup {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 500px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chatContainer {
+    position: fixed;
+    z-index: 1000; /* Asegúrate de que el contenedor también tenga un z-index adecuado */
+}

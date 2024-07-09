@@ -1,0 +1,153 @@
+.offcanvas-cart {
+    position: fixed;
+    right: -100%;
+    top: 0;
+    width: 500px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    transition: right 0.3s ease;
+    z-index: 2001;
+}
+
+.offcanvas-cart.open {
+    right: 0;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.cartInfo {
+    padding: 20px;
+}
+
+.cartInfo h5 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.containerCart {
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+.cardEmpty {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+}
+
+.cartItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.cartItemImage img {
+    display: block;
+    width: 60px;
+    height: auto;
+}
+
+.CartItemDetail {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.CartItemDetail h6 {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.quantityControls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.quantityBtn {
+    display: flex;
+    align-items: center;
+}
+
+.quantityBtn button {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.quantityBtn span {
+    margin: 0 10px;
+}
+
+.btnDelateProduct {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.btnDelateProduct img {
+    display: block;
+    width: 19px;
+    height: auto;
+}
+
+.containerTotal {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eaeaea;
+    background-color: #f9f9f9;
+    position: absolute;
+    bottom: 0;
+    width: 92%;
+}
+
+.containerTotal h4 {
+    margin-bottom: 10px;
+}
+
+.containerTotal h4 span {
+    font-weight: normal;
+}
+
+.deleteCartBtn{
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 3px 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.deleteCartBtn:hover {
+    background-color: #c0392b;
+}
+
+.cardEmpty {
+    border: 1px solid rgb(202, 202, 202);
+    font-size: 13px;
+    padding: 4px;
+}
+
+.finalizarCompraBtn {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 3px 11px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 12px;
+}
