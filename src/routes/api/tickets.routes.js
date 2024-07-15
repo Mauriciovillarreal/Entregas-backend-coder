@@ -1,6 +1,5 @@
 const { Router } = require('express')
 const TicketController = require('../../controller/ticket.controller.js')
-const { authUser } = require('../../middlewares/auth.middleware.js')
 
 const router = Router()
 const {

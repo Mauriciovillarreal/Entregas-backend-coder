@@ -93,7 +93,7 @@ const initPassport = () => {
             try {
                 let user = await userService.getUsersBy({ email: profile._json.email })
                 if (!user) {
-                    const cart = await cartService.createCart()
+                    const cart = await cartService.create()
                     let newUser = {
                         first_name: profile._json.name,
                         last_name: profile._json.name,

@@ -1,5 +1,8 @@
 const { cartService, productService, ticketService } = require('../service/index.js');
 const mongoose = require('mongoose');
+const CustomError = require('../service/errors/CustomError.js');
+const EErrors = require('../service/errors/enums.js');
+const generateCartErrorInfo = require('../service/errors/info.js');
 
 class CartController {
     constructor() {
@@ -43,20 +46,23 @@ class CartController {
         }
     }
 
-    addProductToCart = async (req, res) => {
+    addProductToCart = async (req, res, next) => {
         try {
             const { cid, pid } = req.params;
-            console.log('Received cid:', cid, 'pid:', pid); // Debugging log
             if (!cid || !pid) {
-                return res.status(400).json({ error: 'Missing cart ID or product ID' });
+                CustomError.createError({
+                    name: 'InvalidCartError',
+                    cause: generateCartErrorInfo({ cid, pid }),
+                    message: 'Missing cart ID or product ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
             }
             const cart = await cartService.addProductToCart(cid, pid);
             res.json(cart);
         } catch (error) {
-            console.error('An error occurred while adding the product to the cart:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            next(error)
         }
-    }
+    }    
 
     deleteCart = async (req, res) => {
         try {

@@ -64,29 +64,29 @@ class CartsDaoMongo {
 
     async addProductToCart(cartId, productId) {
         try {
-            const cart = await this.model.findById(cartId)
+            // Buscar el carrito y poblar los productos
+            const cart = await this.model.findById(cartId).populate('products.product');
             if (!cart) {
-                throw new Error('Cart not found')
-            }
-            const product = await productsModel.findById(productId)
-            if (!product) {
-                throw new Error('Product not found')
-            }
-            const existingProductIndex = cart.products.findIndex(product => product.product.toString() === productId)
-            if (existingProductIndex !== -1) {
-                cart.products[existingProductIndex].quantity++
-            } else {
-                const newProduct = {
-                    product: productId,
-                    quantity: 1
-                }
-                cart.products.push(newProduct)
+                throw new Error('Cart not found');
             }
 
-            await cart.save()
-            return await this.model.findById(cartId).populate('products.product').exec()
+            // Verificar si el producto ya existe en el carrito
+            const productIndex = cart.products.findIndex(item => item.product._id.toString() === productId);
+            if (productIndex > -1) {
+                // Si el producto ya existe, incrementar la cantidad
+                cart.products[productIndex].quantity += 1;
+            } else {
+                // Si el producto no existe, agregarlo al carrito
+                cart.products.push({ product: productId, quantity: 1 });
+            }
+
+            // Guardar el carrito actualizado
+            await cart.save();
+
+            // Devolver el carrito actualizado con los productos poblados
+            return await this.model.findById(cartId).populate('products.product').exec();
         } catch (error) {
-            throw new Error('Error while adding product to cart: ' + error.message)
+            throw new Error('Error while adding product to cart: ' + error.message);
         }
     }
 

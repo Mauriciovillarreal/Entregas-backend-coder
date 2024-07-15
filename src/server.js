@@ -1,11 +1,12 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
-const { connectDB, objetConfig } = require('./config/index.js')
-const { initSession } = require('./config/session.config.js')
-const { initSocket } = require('./config/socket.config.js')
 const routerApp = require('./routes/index.js')
 const cors = require('cors')
 const passport = require('passport')
+const { connectDB, objetConfig } = require('./config/index.js')
+const { initSession } = require('./config/session.config.js')
+const { initSocket } = require('./config/socket.config.js')
+const { errorHandler } = require('./middlewares/error/index.js')
 
 const { port, mongo_url, cookie_parser_secret } = objetConfig
 
@@ -31,5 +32,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(routerApp)
+app.use(errorHandler())
 
 initSocket(httpServer)
