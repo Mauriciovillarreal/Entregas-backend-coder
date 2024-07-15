@@ -1,4 +1,13 @@
+.containerProductDetail {
+    margin-top: 80px;
+    font-family: 'Montserrat', sans-serif;
+}
 
-.productDetail {
-    margin-top: 50px;
+.containerProductDetail h2, h4 {
+    text-transform: uppercase;
+}
+
+.containerProductDetail h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(209, 209, 209);
 }

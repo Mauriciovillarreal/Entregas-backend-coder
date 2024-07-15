@@ -25,7 +25,7 @@ export const ItemDetailContainer = () => {
     }, [pid]);
 
     return (
-        <div className='productDetail'>
+        <div className='containerProductDetail'>
             <ItemDetail product={product} />
         </div>
     );

@@ -30,8 +30,8 @@ export const NavBar = () => {
 
   return (
     <header>
-      <div>
-        <h1><Link to="/">L'ESSENZA</Link></h1>
+      <div >
+        <h1><Link to="/" className='title'>L'ESSENZA</Link></h1>
       </div>
       {user && user.role !== 'admin' && <ChatWidget />}
       <div className='loginWidget'>

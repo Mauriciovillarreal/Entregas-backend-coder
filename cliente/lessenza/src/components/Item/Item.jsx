@@ -47,17 +47,18 @@ export const Item = ({ product }) => {
 
     return (
         <Col className='cardProducts'>
-            <div className='cardImg'>
-                <Link to={`/detail/${product._id}`} className='linkProduct'>
-                    <img src={product.thumbnails} alt="" />
-                </Link>
-            </div>
-            <h1>{product.brands}</h1>
-            <h2>{product.name}</h2>
-            <h2>${product.price}</h2>
-            <div className='btnAddContainer'>
-                <button onClick={handleAddToCart} className='btnAdd'>AGREGAR AL CARRITO</button>
-            </div>
-        </Col>
+        <div className='cardImg'>
+            <Link to={`/detail/${product._id}`} className='linkProduct'>
+                <img src={product.thumbnails} alt="" />
+            </Link>
+        </div>
+        <h1>{product.brands}</h1>
+        <h2>{product.name}</h2>
+        <h2>${product.price}</h2>
+        <div className='btnAddContainer'>
+            <button onClick={handleAddToCart} className='btnAdd'>COMPRAR</button>
+        </div>
+    </Col>
+    
     );
 }
