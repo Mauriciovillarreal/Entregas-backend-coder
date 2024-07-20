@@ -8,4 +8,4 @@ class CustomError {
     }
 }
 
-module.exports = {CustomError}
+module.exports = { CustomError }

@@ -1,42 +1,73 @@
-const { productService } = require('../service/index.js')
+const mongoose = require('mongoose');
+const { productService } = require('../service/index.js');
+const { CustomError } = require('../service/errors/CustomError.js');
+const { EErrors } = require('../service/errors/enums.js');
+const { generateProductErrorInfo } = require('../service/errors/info.js');
 
 class ProductController {
     constructor() {
-        this.productsService = productService
+        this.productsService = productService;
     }
 
-    getProducts = async (req, res) => {
+    getProducts = async (req, res, next) => {
         try {
-            const products = await this.productsService.getProducts() // Correct method name
-            res.send(products)
+            const products = await this.productsService.getProducts();
+            res.send(products);
         } catch (error) {
-            res.status(500).send({ status: 'error', message: error.message })
+            next(error);
         }
     }
 
-    getProduct = async (req, res) => {
-        const { pid } = req.params
+    getProduct = async (req, res, next) => {
+        const { pid } = req.params;
         try {
-            const result = await this.productsService.getProduct(pid) // Correct method name
-            res.send({ status: 'success', data: result })
+            if (!mongoose.Types.ObjectId.isValid(pid)) {
+                CustomError.createError({
+                    name: 'InvalidProductError',
+                    cause: generateProductErrorInfo({ pid }),
+                    message: 'Invalid product ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
+            }
+            const result = await this.productsService.getProduct(pid);
+            if (!result) {
+                CustomError.createError({
+                    name: 'ProductNotFoundError',
+                    cause: `Product with ID ${pid} not found`,
+                    message: 'Product not found',
+                    code: EErrors.PRODUCT_NOT_FOUND,
+                });
+            }
+            res.send({ status: 'success', data: result });
         } catch (error) {
-            res.status(500).send({ status: 'error', message: error.message })
+            next(error);
         }
     }
 
-    createProduct = async (req, res) => {
-        const productData = req.body
+    createProduct = async (req, res, next) => {
+        const productData = req.body;
         try {
-            const result = await this.productsService.createProduct(productData) // Correct method name
-            res.status(201).json({ status: 'success', data: result })
+            const requiredFields = ['name', 'price', 'stock'];
+            for (const field of requiredFields) {
+                if (!productData[field]) {
+                    CustomError.createError({
+                        name: 'InvalidProductDataError',
+                        cause: generateProductErrorInfo(productData),
+                        message: `Missing required field: ${field}`,
+                        code: EErrors.INVALID_TYPES_ERROR,
+                    });
+                }
+            }
+            const result = await this.productsService.createProduct(productData);
+            res.status(201).json({ status: 'success', data: result });
         } catch (error) {
-            res.status(500).send({ status: 'error', message: error.message })
+            next(error);
         }
     }
 
-    updateProduct = async (req, res) => {
-        const { pid } = req.params
-        const { name, description, code, price, stock, category } = req.body
+    updateProduct = async (req, res, next) => {
+        const { pid } = req.params;
+        const { name, description, code, price, stock, category } = req.body;
         const updateData = {
             name: name || undefined,
             description: description || undefined,
@@ -44,24 +75,56 @@ class ProductController {
             price: price || undefined,
             stock: stock || undefined,
             category: category || undefined,
-        }
+        };
         try {
-            const result = await this.productsService.updateProduct(pid, updateData) // Correct method name
-            res.json({ status: 'success', data: result })
+            if (!mongoose.Types.ObjectId.isValid(pid)) {
+                CustomError.createError({
+                    name: 'InvalidProductError',
+                    cause: generateProductErrorInfo({ pid }),
+                    message: 'Invalid product ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
+            }
+            const result = await this.productsService.updateProduct(pid, updateData);
+            if (!result) {
+                CustomError.createError({
+                    name: 'ProductNotFoundError',
+                    cause: `Product with ID ${pid} not found`,
+                    message: 'Product not found',
+                    code: EErrors.PRODUCT_NOT_FOUND,
+                });
+            }
+            res.json({ status: 'success', data: result });
         } catch (error) {
-            res.status(500).send({ status: 'error', message: error.message })
+            next(error);
         }
     }
 
-    deleteProduct = async (req, res) => {
-        const { pid } = req.params
+    deleteProduct = async (req, res, next) => {
+        const { pid } = req.params;
         try {
-            const result = await this.productsService.deleteProduct(pid) // Correct method name
-            res.json({ message: "Product deleted successfully", data: result })
+            if (!mongoose.Types.ObjectId.isValid(pid)) {
+                CustomError.createError({
+                    name: 'InvalidProductError',
+                    cause: generateProductErrorInfo({ pid }),
+                    message: 'Invalid product ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
+            }
+            const result = await this.productsService.deleteProduct(pid);
+            if (!result) {
+                CustomError.createError({
+                    name: 'ProductNotFoundError',
+                    cause: `Product with ID ${pid} not found`,
+                    message: 'Product not found',
+                    code: EErrors.PRODUCT_NOT_FOUND,
+                });
+            }
+            res.json({ message: "Product deleted successfully", data: result });
         } catch (error) {
-            res.status(500).send({ status: 'error', message: error.message })
+            next(error);
         }
     }
 }
 
-module.exports = ProductController
+module.exports = ProductController;

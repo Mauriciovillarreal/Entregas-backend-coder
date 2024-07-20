@@ -6,4 +6,4 @@ const EErrors = {
     CART_OPERATION_ERROR: 5,
 };
 
-module.exports = {EErrors};
+module.exports = { EErrors }

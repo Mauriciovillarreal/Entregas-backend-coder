@@ -1,0 +1,101 @@
+info: GET en /loggerTest - 20/7/2024, 17:29:04
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: GET en /favicon.ico - 20/7/2024, 17:29:05
+info: GET en /loggerTest - 20/7/2024, 17:30:25
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: GET en /loggerTest - 20/7/2024, 17:30:39
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: Server listening on port 8080
+info: Server listening on port 8000
+info: Server listening on port 8000
+info: Server listening on port 8000
+info: GET en /loggerTest - 20/7/2024, 17:39:38
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: GET en /loggerTest - 20/7/2024, 17:58:41
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: Server listening on port 8000
+info: Server listening on port 8000
+info: GET en /loggerTest - 20/7/2024, 18:02:16
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: BD conectada
+info: Server listening on port 8000
+info: BD conectada
+info: Server listening on port 8080
+info: GET en /loggerTest - 20/7/2024, 18:06:55
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: POST en /api/sessions/login - 20/7/2024, 18:07:55
+info: BD conectada
+info: Server listening on port 8080
+info: POST en /api/sessions/login - 20/7/2024, 18:10:00
+info: POST en /api/sessions/login - 20/7/2024, 18:11:13
+info: BD conectada
+info: Server listening on port 8080
+info: POST en /api/sessions/login - 20/7/2024, 18:12:48
+info: Contraseña incorrecta
+info: POST en /api/sessions/login - 20/7/2024, 18:14:55
+info: GET en /api/carts/6688ab1a11a3f2eb9b1be626 - 20/7/2024, 18:14:55
+info: GET en /api/products - 20/7/2024, 18:14:58
+info: GET en /api/sessions/current - 20/7/2024, 18:14:58
+info: GET en /api/carts/6688ab1a11a3f2eb9b1be626 - 20/7/2024, 18:14:58
+info: BD conectada
+info: Server listening on port 8080
+info: New user connected
+info: New user connected
+info: POST en /api/carts/6688ab1a11a3f2eb9b1be626/product/6645013e72d9769c8cccb1af - 20/7/2024, 18:16:22
+info: DELETE en /api/carts/6688ab1a11a3f2eb9b1be626 - 20/7/2024, 18:16:26
+info: BD conectada
+info: Server listening on port 8080
+info: New user connected
+info: New user connected
+info: BD conectada
+info: Server listening on port 8000
+info: BD conectada
+info: Server listening on port 8000
+info: BD conectada
+info: Server listening on port 8080
+info: BD conectada
+info: Server listening on port 8080
+info: New user connected
+info: New user connected
+info: BD conectada
+info: Server listening on port 8080
+info: New user connected
+info: New user connected
+info: BD conectada
+info: Server listening on port 8080
+info: New user connected
+info: New user connected
+info: GET en /loggerTest - 20/7/2024, 18:36:46
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info
+info: GET en /api/products/6645010c72d9769c8cccb1ad - 20/7/2024, 18:36:55
+info: GET en /api/products - 20/7/2024, 18:37:01
+info: POST en /api/carts/6688ab1a11a3f2eb9b1be626/product/6645018d72d9769c8cccb1b1 - 20/7/2024, 18:37:03
+info: GET en /loggerTest - 20/7/2024, 18:37:13
+fatal: Nivel fatal
+error: Nivel error
+warning: Nivel warning
+info: Nivel info

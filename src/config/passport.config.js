@@ -7,6 +7,7 @@ const { createHash, IsValidPassword } = require('../utils/bcrypt.js')
 const { objetConfig } = require('../config/index.js')
 const UserDto = require('../dto/user.dto.js')
 const mongoose = require('mongoose')
+const { productionLogger } = require('../utils/logger.js')
 
 const { adminEmail, adminPassword } = objetConfig
 
@@ -22,7 +23,7 @@ const initPassport = () => {
         try {
             let userFound = await userService.getUsersBy({ email: username })
             if (userFound) {
-                console.log('El usuario ya existe')
+                productionLogger.info('El usuario ya existe')
                 return done(null, false)
             }
 
@@ -63,17 +64,17 @@ const initPassport = () => {
                     if (password === adminPassword) {
                         return done(null, hardcodedUser)
                     } else {
-                        console.log("Contraseña incorrecta para la cuenta hardcodeada")
+                        productionLogger.info("Contraseña incorrecta para la cuenta hardcodeada")
                         return done(null, false)
                     }
                 }
                 const user = await userService.getUsersBy({ email: username })
                 if (!user) {
-                    console.log("Usuario no encontrado")
+                    productionLogger.info("Usuario no encontrado")
                     return done(null, false)
                 }
                 if (!IsValidPassword(password, { password: user.password })) {
-                    console.log("Contraseña incorrecta")
+                    productionLogger.info("Contraseña incorrecta")
                     return done(null, false)
                 }
                 return done(null, user)
@@ -117,7 +118,6 @@ const initPassport = () => {
     ))
 
     passport.serializeUser((user, done) => {
-        console.log('User to serialize:', user)
         done(null, { _id: user._id, role: user.role })
     })
 

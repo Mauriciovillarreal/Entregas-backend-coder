@@ -1,7 +1,12 @@
 const dotenv = require('dotenv')
+const program = require('../utils/commander.js')
 
-dotenv.config()
+const { mode } = program.opts()
 
+dotenv.config({
+    path: mode === 'production' ? './.env.production' : './.env.development'
+  });
+  
 exports.objetConfig = {
     port: process.env.PORT || 8080,
     mongo_url: process.env.MONGO_URL,

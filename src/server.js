@@ -6,14 +6,15 @@ const passport = require('passport')
 const { connectDB, objetConfig } = require('./config/index.js')
 const { initSession } = require('./config/session.config.js')
 const { initSocket } = require('./config/socket.config.js')
-const { errorHandler } = require('./middlewares/error/index.js')
+const errorHandler = require('./middlewares/error/index.js')
+const { addLogger, productionLogger } = require('./utils/logger.js')
 
 const { port, mongo_url, cookie_parser_secret } = objetConfig
 
 const app = express()
 const httpServer = app.listen(port, error => {
-    if (error) console.log(error)
-    console.log('Server listening on port ' + port)
+    if (error) productionLogger.info(error)
+    productionLogger.info('Server listening on port ' + port)
 })
 
 connectDB()
@@ -30,6 +31,8 @@ initSession(app, mongo_url)
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(addLogger)
 
 app.use(routerApp)
 app.use(errorHandler())

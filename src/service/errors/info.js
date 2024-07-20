@@ -13,4 +13,4 @@ const generateCartErrorInfo = (cart) => {
     *quantity: needs to be a Number, received ${cart.quantity}`;
 }
 
-module.exports ={ generateProductErrorInfo , generateCartErrorInfo }
+module.exports = { generateProductErrorInfo , generateCartErrorInfo }

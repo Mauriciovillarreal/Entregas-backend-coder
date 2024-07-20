@@ -1,8 +1,8 @@
-const { cartService, productService, ticketService } = require('../service/index.js');
 const mongoose = require('mongoose');
-const CustomError = require('../service/errors/CustomError.js');
-const EErrors = require('../service/errors/enums.js');
-const generateCartErrorInfo = require('../service/errors/info.js');
+const { cartService, productService, ticketService } = require('../service/index.js');
+const { CustomError } = require('../service/errors/CustomError.js');
+const { EErrors } = require('../service/errors/enums.js');
+const { generateCartErrorInfo } = require('../service/errors/info.js')
 
 class CartController {
     constructor() {
@@ -19,32 +19,40 @@ class CartController {
         }
     }
 
-    getCartById = async (req, res) => {
+    getCartById = async (req, res, next) => {
         try {
             const { cid } = req.params;
             if (!mongoose.Types.ObjectId.isValid(cid)) {
-                return res.status(400).json({ error: 'Invalid cart ID' });
+                CustomError.createError({
+                    name: 'InvalidCartError',
+                    cause: generateCartErrorInfo({ cid }),
+                    message: 'Invalid cart ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
             }
             const cart = await cartService.getCart(cid);
             if (!cart) {
-                return res.status(404).json({ error: 'Cart not found' });
+                CustomError.createError({
+                    name: 'CartNotFoundError',
+                    cause: `Cart with ID ${cid} not found`,
+                    message: 'Cart not found',
+                    code: EErrors.PRODUCT_NOT_FOUND,
+                });
             }
             res.json(cart);
         } catch (error) {
-            console.error('An error occurred while retrieving the cart:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
-
-    createCart = async (req, res) => {
+   
+    createCart = async (req, res, next) => {
         try {
             const cart = await cartService.createCart();
             res.send(cart);
         } catch (error) {
-            console.error('An error occurred while creating the cart:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
-    }
+    }    
 
     addProductToCart = async (req, res, next) => {
         try {
@@ -64,44 +72,69 @@ class CartController {
         }
     }    
 
-    deleteCart = async (req, res) => {
+    deleteCart = async (req, res, next) => {
         try {
             const { cid } = req.params;
+            if (!mongoose.Types.ObjectId.isValid(cid)) {
+                CustomError.createError({
+                    name: 'InvalidCartError',
+                    cause: generateCartErrorInfo({ cid }),
+                    message: 'Invalid cart ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
+            }
             const result = await cartService.deleteCart(cid);
+            if (!result) {
+                CustomError.createError({
+                    name: 'CartNotFoundError',
+                    cause: `Cart with ID ${cid} not found`,
+                    message: 'Cart not found',
+                    code: EErrors.PRODUCT_NOT_FOUND,
+                });
+            }
             res.json({ message: "Cart deleted successfully", data: result });
         } catch (error) {
-            console.error('An error occurred while deleting the cart:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
-    }
+    }   
 
-    deleteProduct = async (req, res) => {
+    deleteProduct = async (req, res, next) => {
         try {
             const { cid, pid } = req.params;
-            console.log('Received cid:', cid, 'pid:', pid); // Debugging log
             if (!cid || !pid) {
-                return res.status(400).json({ error: 'Missing cart ID or product ID' });
+                CustomError.createError({
+                    name: 'InvalidCartError',
+                    cause: generateCartErrorInfo({ cid, pid }),
+                    message: 'Missing cart ID or product ID',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
             }
             const cart = await cartService.deleteProduct(cid, pid);
             res.json({ message: "Product deleted successfully", data: cart });
         } catch (error) {
-            console.error('An error occurred while deleting the product from the cart:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
 
-    updateProductQuantity = async (req, res) => {
+    updateProductQuantity = async (req, res, next) => {
         try {
             const { cid, pid } = req.params;
             const { quantity } = req.body;
+            if (!cid || !pid || quantity == null) {
+                CustomError.createError({
+                    name: 'InvalidCartError',
+                    cause: generateCartErrorInfo({ cid, pid, quantity }),
+                    message: 'Missing cart ID, product ID or quantity',
+                    code: EErrors.INVALID_TYPES_ERROR,
+                });
+            }
             const updatedCart = await cartService.updateProductQuantity(cid, pid, quantity);
             res.json({ message: "Quantity was changed successfully", data: updatedCart });
         } catch (error) {
-            console.error('An error occurred while updating the product quantity:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            next(error);
         }
     }
-
+  
     createTicket = async (req, res) => {
         try {
             if (!req.isAuthenticated()) {

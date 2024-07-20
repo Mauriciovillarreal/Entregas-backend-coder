@@ -1,5 +1,6 @@
 const { connect } = require('mongoose')
 const { objetConfig } = require('../config/index.js')
+const { productionLogger } = require('./logger.js')
 
 const { mongo_url } = objetConfig
 
@@ -11,11 +12,11 @@ class MongoSingleton {
 
     static getInstance() {
         if (this.#instance) {
-            console.log('BD ya esta conectada')
+            productionLogger.info('BD ya esta conectada')
             return this.#instance
         }
         this.#instance = new MongoSingleton()
-        console.log('BD conectada')
+        productionLogger.info('BD conectada')
         return this.#instance
     }
 }

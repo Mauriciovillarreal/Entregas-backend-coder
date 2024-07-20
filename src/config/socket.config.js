@@ -1,6 +1,7 @@
 const { Server } = require('socket.io')
 const { productsModel } = require('../models/products.model.js')
 const { chatsModel } = require('../models/chat.model.js')
+const { productionLogger } = require('../utils/logger.js')
 
 let io
 
@@ -14,7 +15,7 @@ function initSocket(httpServer) {
     })
 
     io.on('connection', async (socket) => {
-        console.log('New user connected')
+        productionLogger.info('New user connected')
 
         try {
             const products = await productsModel.find({})
@@ -34,18 +35,18 @@ function initSocket(httpServer) {
 
         socket.on('add-product', async (product) => {
             try {
-                console.log('Adding product:', product) 
+                productionLogger.info('Adding product:', product) 
                 const newProduct = await productsModel.create(product)
                 const updatedProducts = await productsModel.find({})
                 io.emit('update-products', updatedProducts)
             } catch (error) {
-                console.error('Error occurred while adding product:', error)
+                productionLogger.info('Error occurred while adding product:', error)
             }
         })
 
         socket.on('delete-product', async (productId) => {
             try {
-                console.log('Deleting product with ID:', productId)
+                productionLogger.info('Deleting product with ID:', productId)
                 const product = await productsModel.findById(productId)
                 if (!product) {
                     io.to(socket.id).emit('product-not-found')
@@ -55,24 +56,24 @@ function initSocket(httpServer) {
                 const updatedProducts = await productsModel.find({})
                 io.emit('update-products', updatedProducts)
             } catch (error) {
-                console.error('Error occurred while deleting product:', error)
+                productionLogger.info('Error occurred while deleting product:', error)
             }
         })
 
         socket.on('chat message', async (msg) => {
-            console.log('Received chat message:', msg) 
+            productionLogger.info('Received chat message:', msg) 
             try {
                 const newMessage = new chatsModel({ email: msg.user, message: msg.message })
                 const savedMessage = await newMessage.save()
-                console.log('Saved message:', savedMessage) 
+                productionLogger.info('Saved message:', savedMessage) 
                 io.emit('chat message', msg)
             } catch (error) {
-                console.error('Error occurred while saving message:', error)
+                productionLogger.info('Error occurred while saving message:', error)
             }
         })
 
         socket.on('disconnect', () => {
-            console.log('User disconnected')
+            productionLogger.info('User disconnected')
         })
     })
 }
