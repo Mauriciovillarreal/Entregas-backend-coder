@@ -58,9 +58,8 @@ const productionLogger = winston.createLogger({
 });
 
 const addLogger = (req, res, next) => {
-    // req.logger = process.env.NODE_ENV === 'production' ? productionLogger : developmentLogger;
-    // no funciona el ternario para elegir el modo 
-    req.logger = productionLogger
+    const logger = process.env.NODE_ENV === 'production' ? productionLogger : developmentLogger;
+    req.logger = logger;
     req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleString()}`)
     next()
 }
