@@ -1,5 +1,5 @@
-const { createTransport } = require("nodemailer");
-const { objetConfig } = require("../config");
+const { createTransport } = require("nodemailer")
+const { objetConfig } = require("../config")
 
 const { gmail_pass, gmail_user} = objetConfig
 

@@ -1,4 +1,4 @@
-const winston = require('winston');
+const winston = require('winston')
 
 const customLevelOptions = {
     levels: {
@@ -17,9 +17,9 @@ const customLevelOptions = {
         http: 'magenta',
         debug: 'white'
     }
-};
+}
 
-winston.addColors(customLevelOptions.colors);
+winston.addColors(customLevelOptions.colors)
 
 const developmentLogger = winston.createLogger({
     levels: customLevelOptions.levels,
@@ -32,7 +32,7 @@ const developmentLogger = winston.createLogger({
             )
         })
     ]
-});
+})
 
 const productionLogger = winston.createLogger({
     levels: customLevelOptions.levels,
@@ -55,11 +55,11 @@ const productionLogger = winston.createLogger({
             format: winston.format.simple()
         })
     ]
-});
+})
 
 const addLogger = (req, res, next) => {
-    const logger = process.env.NODE_ENV === 'production' ? productionLogger : developmentLogger;
-    req.logger = logger;
+    const logger = process.env.NODE_ENV === 'production' ? productionLogger : developmentLogger
+    req.logger = logger
     req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleString()}`)
     next()
 }

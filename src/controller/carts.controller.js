@@ -44,7 +44,7 @@ class CartController {
             next(error)
         }
     }
-   
+
     createCart = async (req, res, next) => {
         try {
             const cart = await cartService.createCart()
@@ -52,11 +52,13 @@ class CartController {
         } catch (error) {
             next(error)
         }
-    }    
+    }
 
     addProductToCart = async (req, res, next) => {
         try {
             const { cid, pid } = req.params
+            const user = req.user
+
             if (!cid || !pid) {
                 CustomError.createError({
                     name: 'InvalidCartError',
@@ -65,12 +67,29 @@ class CartController {
                     code: EErrors.INVALID_TYPES_ERROR,
                 })
             }
+
+            const product = await productService.getProduct(pid)
+            if (!product) {
+                CustomError.createError({
+                    name: 'ProductNotFoundError',
+                    cause: `Product with ID ${pid} not found`,
+                    message: 'Product not found',
+                    code: EErrors.PRODUCT_NOT_FOUND,
+                })
+            }
+
+            if (user.role === 'premium' && product.owner === user.email) {
+                return res.status(403).json({
+                    error: 'Premium users cannot add their own products to their cart'
+                })
+            }
+
             const cart = await cartService.addProductToCart(cid, pid)
             res.json(cart)
         } catch (error) {
             next(error)
         }
-    }    
+    }
 
     deleteCart = async (req, res, next) => {
         try {
@@ -96,7 +115,7 @@ class CartController {
         } catch (error) {
             next(error)
         }
-    }   
+    }
 
     deleteProduct = async (req, res, next) => {
         try {
@@ -134,12 +153,12 @@ class CartController {
             next(error)
         }
     }
-  
+
     createTicket = async (req, res) => {
         try {
             if (!req.isAuthenticated()) {
                 return res.status(401).json({ error: 'User not authenticated' })
-            }    
+            }
 
             const { cid } = req.params
             if (!mongoose.Types.ObjectId.isValid(cid)) {
@@ -147,31 +166,31 @@ class CartController {
             }
 
             const userId = req.user.email
-   
+
             const cart = await cartService.getCart(cid)
             if (!cart || !cart.products || cart.products.length === 0) {
                 return res.status(400).json({ error: 'Cart is empty or invalid' })
             }
-    
+
             const unprocessedProducts = []
             const processedProducts = []
-    
+
             for (const item of cart.products) {
                 if (!item.product) {
                     console.warn('Product item is missing product ID')
                     unprocessedProducts.push({ productId: null, reason: 'Missing product ID' })
                     continue
                 }
-    
+
                 const product = await productService.getProduct(item.product)
                 console.log(`Checking product ${item.product}:`, product)
-    
+
                 if (!product) {
                     console.warn(`Product with ID ${item.product} not found`)
                     unprocessedProducts.push({ productId: item.product, reason: 'Product not found' })
                     continue
                 }
-    
+
                 if (product.stock >= item.quantity) {
                     console.log(`Product ${product._id} has sufficient stock:`, product.stock)
                     product.stock -= item.quantity
@@ -187,19 +206,19 @@ class CartController {
                     unprocessedProducts.push({ productId: item.product, reason: 'Insufficient stock' })
                 }
             }
-    
+
             if (processedProducts.length > 0) {
                 await cartService.updateCart(cid, {
                     products: cart.products.filter(item => unprocessedProducts.some(up => up.productId === item.product))
                 })
                 console.log('Updated cart products:', cart.products)
-    
+
                 const ticket = await ticketService.createTicket({
                     purchaser: userId,
                     products: processedProducts,
                     amount: processedProducts.reduce((acc, item) => acc + (item.quantity * item.price), 0)
                 })
-    
+
                 return res.json({
                     message: "Purchase completed successfully",
                     ticket: ticket,
@@ -213,7 +232,7 @@ class CartController {
             res.status(500).json({ error: 'Internal server error' })
         }
     }
-    
+
 }
 
 module.exports = CartController

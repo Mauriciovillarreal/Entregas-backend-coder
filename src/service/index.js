@@ -9,7 +9,7 @@ const UsersRepository = require('../repositories/user.repository.js')
 
 const productService = new ProductsRepository(new ProductDao())
 const cartService = new CartsRepository(new CartsDao())
-const userService = new UsersRepository(new UserDao());
+const userService = new UsersRepository(new UserDao())
 const ticketDao = new TicketDao() 
 const ticketService = new TicketRepository(ticketDao)
 
@@ -18,5 +18,5 @@ module.exports = {
     cartService,
     userService,
     ticketService,
-    usersModel: require('../models/users.model.js')
+    usersModel: require('../dao/MONGO/models/users.model.js')
 }

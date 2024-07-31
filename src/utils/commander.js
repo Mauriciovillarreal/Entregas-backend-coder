@@ -6,4 +6,4 @@ program
     .option('--mode <mode>', 'modo de trabajo de mi server', 'production')
     .parse()
 
-module.exports = program;
+module.exports = program

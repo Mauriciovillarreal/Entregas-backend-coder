@@ -18,8 +18,8 @@ const initSession = (app, mongoUrl) => {
     }),
     secret: session_secret,
     resave: false,
-    saveUninitialized: false, // Ensure sessions are only saved if modified
-    cookie: { secure: false, httpOnly: true } // Adjust secure setting for local development
+    saveUninitialized: false,
+    cookie: { secure: false } 
   }))
 
   initPassport()

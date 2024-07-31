@@ -1,4 +1,4 @@
-const ticketModel = require("../../models/ticket.model")
+const ticketModel = require("./models/ticket.model")
 
 class TicketDaoMongo {
     constructor() {
