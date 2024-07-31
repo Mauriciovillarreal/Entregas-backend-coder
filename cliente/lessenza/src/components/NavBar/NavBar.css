@@ -39,12 +39,12 @@ header a {
 
 .loginWidget {
   position: absolute;
-  top: 15px;
+  top: 14px;
   right: 55px;
 }
 
 .toggle-button img {
-  width: 25px;
+  width: 30px;
 }
 
 .close-button img {

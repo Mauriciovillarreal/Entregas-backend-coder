@@ -5,7 +5,7 @@
 .cart {
     position: absolute;
     right: -38px;
-    top: -2px;
+    top: 0px;
 }
 
 .toggle-button {
