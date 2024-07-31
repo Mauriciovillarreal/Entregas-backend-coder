@@ -14,8 +14,8 @@ const {
 
 router.get('/', getProducts)
 router.get('/:pid', getProduct)
-router.post('/', authAdmin, createProduct)
+router.post('/', createProduct)
 router.put('/:pid', authAdmin, updateProduct)
-router.delete('/:pid', authAdmin, deleteProduct)
+router.delete('/:pid', deleteProduct)
 
 module.exports = router

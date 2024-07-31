@@ -1,24 +1,29 @@
-const { usersModel } = require('../../models/users.model.js')
+const { usersModel } = require('../../models/users.model.js');
 
 class UsersDaoMongo {
     constructor() {
-        this.model = usersModel
+        this.model = usersModel;
     }
 
-    getUsers = async () => {
-        const users = await this.model.find()
-        return users
+    async getAll() {
+        return await this.model.find();
     }
 
-    getUsersBy = async (filter) => {
-        return this.model.findOne(filter)
+    async get(uid) {
+        return await this.model.findById(uid);
     }
 
-    createUser = async (newUser) => {
-        const result = await this.model.create(newUser)
-        return result
+    async getUsersBy(query) {
+        return await this.model.findOne(query);
     }
 
+    async create(newUser) {
+        return await this.model.create(newUser);
+    }
+
+    async update(uid, updateUser) {
+        return await this.model.findByIdAndUpdate(uid, updateUser, { new: true });
+    }
 }
 
-module.exports = UsersDaoMongo
+module.exports = UsersDaoMongo;

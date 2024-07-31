@@ -8,6 +8,7 @@ const { objetConfig } = require('../config/index.js')
 const UserDto = require('../dto/user.dto.js')
 const mongoose = require('mongoose')
 const { productionLogger } = require('../utils/logger.js')
+const { sendEmail } = require('../utils/sendEmail.js')
 
 const { adminEmail, adminPassword } = objetConfig
 
@@ -39,6 +40,10 @@ const initPassport = () => {
 
             let result = await userService.createUser(userDto)
 
+            const html = `<h1>Bienvenido ${result.first_name} ${result.last_name}</h1>`
+            
+            sendEmail({userMail: result.email, subject : `Se a creado correctamente el usuario ${result.email}`, html})
+
             return done(null, result)
         } catch (error) {
             console.error('Error during registration:', error)
@@ -49,7 +54,7 @@ const initPassport = () => {
     const hardcodedUser = {
         _id: new mongoose.Types.ObjectId(),
         email: adminEmail,
-        password: adminPassword, // Store the password here for comparison
+        password: adminPassword,
         role: 'admin',
         first_name: 'Admin',
         last_name: 'Coder',

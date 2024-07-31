@@ -31,6 +31,4 @@ const initSession = (app, mongoUrl) => {
   })
 }
 
-
-
 module.exports = { initSession }

@@ -1,15 +1,16 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
     fullname: {
         type: String,
-        require: true
+        required: true
     },
     first_name: String,
     last_name: String,
     email: { 
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     age: Number,
     password: { 
@@ -18,21 +19,24 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        default: 'user'
+        default: 'user',
+        enum: ['user', 'admin', 'premium']
     },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     cart: {
         type: Schema.Types.ObjectId,
         ref: 'carts',
         required: true
     }
-})
+});
 
 userSchema.pre('find', function (next) {
-    this.populate('carts,cart')
-    next()
-})
+    this.populate('cart');
+    next();
+});
 
-const usersModel = model('users', userSchema)
+const usersModel = model('users', userSchema);
 
 module.exports = {
     usersModel
