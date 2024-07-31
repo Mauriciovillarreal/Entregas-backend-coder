@@ -1,3 +1,4 @@
+// LoginForm.jsx
 import { AuthContext } from '../../AuthContext/AuthContext';
 import React, { useState, useContext } from 'react';
 import "./Login.css";
@@ -63,6 +64,7 @@ const LoginForm = () => {
           className="control"
         />
         <p>¿No tenés cuenta aún? <Link to="/register">Crear cuenta</Link></p>
+        <p>¿Olvidaste tu contraseña? <Link to="/forgot-password">Recuperar contraseña</Link></p>
         <hr />
         <button type="submit" className="btnLogin">LOGIN</button>
         {error && <p className="error">{error}</p>}

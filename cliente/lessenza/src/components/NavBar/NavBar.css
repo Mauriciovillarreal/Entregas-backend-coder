@@ -8,8 +8,9 @@
 }
 
 .title {
-  font-family: "Arvo", serif;
-  font-size: 23px;
+  letter-spacing: -0.5px;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 32px;
   color: bisque;
 }
 
@@ -25,14 +26,15 @@ header {
 }
 
 header h1 {
-  padding-top: 15px;
+  padding-top: 8px;
   font-size: 18px;
   text-align: center;
+
 }
 
 header a {
   text-decoration: none !important;
-  color: rgb(199, 199, 199) !important;
+  color: rgb(65, 65, 65) !important;
 }
 
 .loginWidget {
@@ -41,19 +43,14 @@ header a {
   right: 55px;
 }
 
-
-
 .toggle-button img {
-  width: 26px;
+  width: 25px;
 }
-
-
 
 .close-button img {
   width: 12px;
 }
 
-/* General styles for the offcanvas navigation */
 .offcanvas-nav {
   position: fixed;
   right: -100%;
@@ -71,12 +68,10 @@ header a {
   z-index: 9999;
 }
 
-/* Style for the offcanvas navigation when it is open */
 .offcanvas-nav.open {
   right: 0;
 }
 
-/* Style for the close button */
 .close-button {
   align-self: flex-end;
   background: none;
@@ -85,7 +80,6 @@ header a {
   margin-bottom: 20px;
 }
 
-/* Style for the user information section */
 .userInfo {
   display: flex;
   flex-direction: column;
@@ -93,7 +87,6 @@ header a {
 
 }
 
-/* Container for the buttons */
 .containerBtn {
   display: flex;
   flex-direction: column;
@@ -102,7 +95,6 @@ header a {
   margin-top: auto;
 }
 
-/* Style for the individual buttons */
 .btnUser {
   background-color: #000000;
   color: #ffffff;
@@ -110,7 +102,6 @@ header a {
   padding: 3px 20px;
   cursor: pointer;
   width: 100%;
-  /* Ensure both buttons have the same width */
   text-align: center;
   text-transform: uppercase;
   font-size: 13px;

@@ -13,12 +13,18 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    socket.on('initial-messages', (msgs) => {
+      console.log('Received initial messages:', msgs); // Log initial messages
+      setMessages(msgs);
+    });
+
     socket.on('chat message', (msg) => {
       console.log('Received chat message:', msg); // Log received message
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
     return () => {
+      socket.off('initial-messages');
       socket.off('chat message');
     };
   }, []);
