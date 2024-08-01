@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const ProductController = require('../../controller/producuts.controller.js')
-const { authPremium , authAdmin } = require('../../middlewares/auth.middleware.js')
+const { authAdmin , authPremiumOrAdmin } = require('../../middlewares/auth.middleware.js')
 
 const router = Router()
 const {
@@ -13,8 +13,8 @@ const {
 
 router.get('/', getProducts)
 router.get('/:pid', getProduct)
-router.post('/',  [ authPremium , authAdmin ] , createProduct)
-router.put('/:pid', [ authPremium , authAdmin ] , updateProduct)
-router.delete('/:pid', [ authPremium , authAdmin ] , deleteProduct)
+router.post('/',  [ authPremiumOrAdmin ] , createProduct)
+router.put('/:pid', [ authPremiumOrAdmin ] , updateProduct)
+router.delete('/:pid', [ authPremiumOrAdmin ] , deleteProduct)
 
 module.exports = router

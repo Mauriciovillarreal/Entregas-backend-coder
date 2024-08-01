@@ -38,7 +38,7 @@ const initPassport = () => {
                 cart: newCart._id
             })
 
-            let result = await userService.createUser(userDto)
+            let result = await userService.create(userDto)
 
             const html = `<h1>Bienvenido ${result.first_name} ${result.last_name}</h1>`
             
@@ -106,13 +106,13 @@ const initPassport = () => {
                         email: profile._json.email,
                         cart: cart._id
                     }
-                    let result = await userService.createUser(newUser)
+                    let result = await userService.create(newUser)
                     done(null, result)
                 } else {
                     if (!user.cart) {
                         const cart = await cartService.create()
                         user.cart = cart._id
-                        await userService.updateUser(user._id, { cart: cart._id })
+                        await userService.update(user._id, { cart: cart._id })
                     }
                     done(null, user)
                 }

@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const CartController = require('../../controller/carts.controller.js')
-const { authUser, authAdmin , authPremium } = require('../../middlewares/auth.middleware.js')
+const { authUser, authAdmin } = require('../../middlewares/auth.middleware.js')
 
 const router = Router()
 const {
@@ -14,13 +14,13 @@ const {
   getCartById
 } = new CartController()
 
-router.get('/', [ authAdmin ] , getCarts)
+router.get('/', getCarts)
 router.get('/:cid', getCartById)
 router.post('/', createCart)
-router.post('/:cid/product/:pid', [ authUser, authPremium ] , addProductToCart)
-router.post('/:cid/purchase', [ authUser, authPremium ] , createTicket)
-router.delete('/:cid', [ authUser, authPremium ] , deleteCart)
-router.delete('/:cid/products/:pid', [ authUser, authPremium ] , deleteProduct)
-router.put('/:cid/products/:pid',[ authUser, authPremium ] , updateProductQuantity)
+router.post('/:cid/product/:pid', [ authUser ], addProductToCart)
+router.post('/:cid/purchase', [ authUser ] , createTicket)
+router.delete('/:cid', [ authUser ] , deleteCart)
+router.delete('/:cid/products/:pid', [ authUser ] , deleteProduct)
+router.put('/:cid/products/:pid',[ authUser ] , updateProductQuantity)
 
 module.exports = router
