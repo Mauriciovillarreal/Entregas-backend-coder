@@ -14,6 +14,9 @@ class UsersRepository {
         user.role = user.role === 'user' ? 'premium' : 'user'
         return await this.UserDao.update(uid, { role: user.role })
     }
+    updateUser = async (uid, updateData) => {
+        return await this.UserDao.update(uid, updateData);
+      }
 }
 
 module.exports = UsersRepository

@@ -13,7 +13,6 @@ const productsSchema = new Schema({
     thumbnails: String,
     owner: {
         type: String,
-        required: true,
         default: 'admin'
     }
 })

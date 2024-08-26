@@ -21,8 +21,8 @@ class UsersDaoMongo {
         return await this.model.create(newUser)
     }
 
-    async update(uid, updateUser) {
-        return await this.model.findByIdAndUpdate(uid, updateUser, { new: true })
+    async update(uid, updateUser, updateData) {
+        return await this.model.findByIdAndUpdate(uid, updateUser, updateData , { new: true })
     }
 }
 

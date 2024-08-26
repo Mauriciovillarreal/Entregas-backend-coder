@@ -45,17 +45,10 @@ class ProductController {
     }
 
     createProduct = async (req, res, next) => {
-        const productData = req.body
-        const user = req.user
+        const productData = req.body;
+        const user = req.user;
         try {
-            if (!user || (user.role !== 'admin' && user.role !== 'premium')) {
-                CustomError.createError({
-                    name: 'UnauthorizedError',
-                    message: 'You do not have permission to create a product',
-                    code: EErrors.UNAUTHORIZED_ERROR,
-                })
-            }
-            const requiredFields = ['name', 'price', 'stock']
+            const requiredFields = ['name', 'price', 'stock'];
             for (const field of requiredFields) {
                 if (!productData[field]) {
                     CustomError.createError({
@@ -63,16 +56,46 @@ class ProductController {
                         cause: generateProductErrorInfo(productData),
                         message: `Missing required field: ${field}`,
                         code: EErrors.INVALID_TYPES_ERROR,
-                    })
+                    });
                 }
             }
-            productData.owner = user.email || 'admin'
-            const result = await this.productsService.createProduct(productData)
-            res.status(201).json({ status: 'success', data: result })
+            productData.owner = user?.email || 'admin';
+            const result = await this.productsService.createProduct(productData);
+            res.status(201).json({ status: 'success', data: result });
         } catch (error) {
-            next(error)
+            next(error);
         }
     }
+    
+    // createProduct = async (req, res, next) => {
+    //     const productData = req.body
+    //     const user = req.user
+    //     try {
+    //         if (!user || (user.role !== 'admin' && user.role !== 'premium')) {
+    //             CustomError.createError({
+    //                 name: 'UnauthorizedError',
+    //                 message: 'You do not have permission to create a product',
+    //                 code: EErrors.UNAUTHORIZED_ERROR,
+    //             })
+    //         }
+    //         const requiredFields = ['name', 'price', 'stock']
+    //         for (const field of requiredFields) {
+    //             if (!productData[field]) {
+    //                 CustomError.createError({
+    //                     name: 'InvalidProductDataError',
+    //                     cause: generateProductErrorInfo(productData),
+    //                     message: `Missing required field: ${field}`,
+    //                     code: EErrors.INVALID_TYPES_ERROR,
+    //                 })
+    //             }
+    //         }
+    //         productData.owner = user.email || 'admin'
+    //         const result = await this.productsService.createProduct(productData)
+    //         res.status(201).json({ status: 'success', data: result })
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
     updateProduct = async (req, res, next) => {
         const { pid } = req.params

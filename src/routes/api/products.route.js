@@ -13,7 +13,7 @@ const {
 
 router.get('/', getProducts)
 router.get('/:pid', getProduct)
-router.post('/',  [ authPremiumOrAdmin ] , createProduct)
+router.post('/', createProduct)
 router.put('/:pid', [ authPremiumOrAdmin ] , updateProduct)
 router.delete('/:pid', [ authPremiumOrAdmin ] , deleteProduct)
 

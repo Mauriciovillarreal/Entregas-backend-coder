@@ -17,10 +17,10 @@ const {
 router.get('/', getCarts)
 router.get('/:cid', getCartById)
 router.post('/', createCart)
-router.post('/:cid/product/:pid', [ authUser ], addProductToCart)
+router.post('/:cid/product/:pid', addProductToCart)
 router.post('/:cid/purchase', [ authUser ] , createTicket)
-router.delete('/:cid', [ authUser ] , deleteCart)
-router.delete('/:cid/products/:pid', [ authUser ] , deleteProduct)
+router.delete('/:cid', deleteCart)
+router.delete('/:cid/products/:pid', deleteProduct)
 router.put('/:cid/products/:pid',[ authUser ] , updateProductQuantity)
 
 module.exports = router

@@ -160,4 +160,3 @@ describe('Test avanzado de Session', async () => {
         expect(user).to.have.property('email')
     })
 })
-

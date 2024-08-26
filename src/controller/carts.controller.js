@@ -56,40 +56,68 @@ class CartController {
 
     addProductToCart = async (req, res, next) => {
         try {
-            const { cid, pid } = req.params
-            const user = req.user
-
+            const { cid, pid } = req.params;
             if (!cid || !pid) {
                 CustomError.createError({
                     name: 'InvalidCartError',
                     cause: generateCartErrorInfo({ cid, pid }),
                     message: 'Missing cart ID or product ID',
                     code: EErrors.INVALID_TYPES_ERROR,
-                })
+                });
             }
-
-            const product = await productService.getProduct(pid)
+            const product = await productService.getProduct(pid);
             if (!product) {
                 CustomError.createError({
                     name: 'ProductNotFoundError',
                     cause: `Product with ID ${pid} not found`,
                     message: 'Product not found',
                     code: EErrors.PRODUCT_NOT_FOUND,
-                })
+                });
             }
-
-            if (user.role === 'premium' && product.owner === user.email) {
-                return res.status(403).json({
-                    error: 'Premium users cannot add their own products to their cart'
-                })
-            }
-
-            const cart = await cartService.addProductToCart(cid, pid)
-            res.json(cart)
+            const cart = await cartService.addProductToCart(cid, pid);
+            res.json(cart);
         } catch (error) {
-            next(error)
+            next(error);
         }
     }
+
+
+    // addProductToCart = async (req, res, next) => {
+    //     try {
+    //         const { cid, pid } = req.params
+    //         const user = req.user
+
+    //         if (!cid || !pid) {
+    //             CustomError.createError({
+    //                 name: 'InvalidCartError',
+    //                 cause: generateCartErrorInfo({ cid, pid }),
+    //                 message: 'Missing cart ID or product ID',
+    //                 code: EErrors.INVALID_TYPES_ERROR,
+    //             })
+    //         }
+
+    //         const product = await productService.getProduct(pid)
+    //         if (!product) {
+    //             CustomError.createError({
+    //                 name: 'ProductNotFoundError',
+    //                 cause: `Product with ID ${pid} not found`,
+    //                 message: 'Product not found',
+    //                 code: EErrors.PRODUCT_NOT_FOUND,
+    //             })
+    //         }
+
+    //         if (user.role === 'premium' && product.owner === user.email) {
+    //             return res.status(403).json({
+    //                 error: 'Premium users cannot add their own products to their cart'
+    //             })
+    //         }
+
+    //         const cart = await cartService.addProductToCart(cid, pid)
+    //         res.json(cart)
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
     deleteCart = async (req, res, next) => {
         try {
