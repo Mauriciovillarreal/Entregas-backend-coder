@@ -11,6 +11,12 @@ import { ItemDetailContainer } from './components/ItemDetailContainer/ItemDetail
 import Register from './components/Register/Register';
 import RealTimeProducts from './components/RealTimeProducts/RealTimeProducts';
 import { Checkout } from './components/Checkout/Checkout';
+import ResetPassword from './components/ResetPassword/ResetPassword';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import GenerateNewResetLink from './components/GenerateNewResetLink/GenerateNewResetLink';
+import Footer from './components/Footer/Footer';
+import UploadDocuments from './components/UploadDocuments/UploadDocuments';
+
 
 const App = () => {
   return (
@@ -24,9 +30,14 @@ const App = () => {
               <Route path='/detail/:pid' element={<ItemDetailContainer />} />
               <Route path='/checkout' element={<Checkout />} />
               <Route path='/login' element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path='/reset-password/:token' element={<ResetPassword />} />
+              <Route path="/generate-new-reset-link" element={<GenerateNewResetLink />} />
               <Route path='/register' element={<Register />} />
               <Route path='/realtimeproducts' element={<RealTimeProducts />} />
+              <Route path='/update' element={<UploadDocuments />} />
             </Routes>
+            <Footer />
             <ToastContainer />
           </BrowserRouter>
         </CartProvider>
