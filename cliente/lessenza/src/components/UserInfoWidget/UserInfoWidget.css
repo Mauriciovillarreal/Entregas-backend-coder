@@ -1,0 +1,47 @@
+.containerUser {
+    margin-top: 8px;
+    font-size: 16px;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+hr {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+.userInfo h3 {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: white;
+    text-transform: uppercase;
+
+}
+
+.role {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+    background: linear-gradient(to right, rgb(255, 43, 255), rgb(0, 0, 161));
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.btnUser {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+}
+
+.btnUser:hover {
+    text-decoration: none;
+}

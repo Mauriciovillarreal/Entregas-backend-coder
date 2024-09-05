@@ -16,6 +16,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import GenerateNewResetLink from './components/GenerateNewResetLink/GenerateNewResetLink';
 import Footer from './components/Footer/Footer';
 import UploadDocuments from './components/UploadDocuments/UploadDocuments';
+import AdminUserManagement from './components/AdminUserManagement/AdminUserManagement';
 
 
 const App = () => {
@@ -30,12 +31,13 @@ const App = () => {
               <Route path='/detail/:pid' element={<ItemDetailContainer />} />
               <Route path='/checkout' element={<Checkout />} />
               <Route path='/login' element={<Login />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path='/forgot-password' element={<ForgotPassword />} />
               <Route path='/reset-password/:token' element={<ResetPassword />} />
               <Route path="/generate-new-reset-link" element={<GenerateNewResetLink />} />
               <Route path='/register' element={<Register />} />
               <Route path='/realtimeproducts' element={<RealTimeProducts />} />
-              <Route path='/update' element={<UploadDocuments />} />
+              <Route path='/profil' element={<UploadDocuments />} />
+              <Route path="/admin/users/:uid" element={<AdminUserManagement />} />
             </Routes>
             <Footer />
             <ToastContainer />

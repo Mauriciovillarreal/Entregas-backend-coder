@@ -1,7 +1,8 @@
-// src/components/Register.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Register.css';
 
 const Register = () => {
@@ -27,7 +28,26 @@ const Register = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/sessions/register', form);
             if (response.status === 200) {
-                navigate('/login');
+                // Mostrar la notificación de éxito
+                toast.success('Registro exitoso, redirigiendo a página login...', {
+                    position: "bottom-left",
+                    autoClose: 4000, // Tiempo que dura el toast (2 segundos)
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    style: {
+                        backgroundColor: "black",
+                        color: "white",
+                        borderRadius: "0px"
+                    },
+                });
+
+                // Esperar 2 segundos antes de redirigir
+                setTimeout(() => {
+                    navigate('/login');
+                }, 5000); // 2 segundos
             } else {
                 setError(response.data.message || 'Registration failed');
             }
@@ -83,7 +103,7 @@ const Register = () => {
                             onChange={handleChange}
                         />
                         <span>
-                            <p>¿Ya tenés una cuenta? <Link to="/login">Iniciar sesion</Link></p>
+                            <p>¿Ya tenés una cuenta? <Link to="/login">Iniciar sesión</Link></p>
                         </span>
                         <hr />
                         <button type="submit" className="btnLogin">REGISTER</button>
@@ -91,6 +111,7 @@ const Register = () => {
                     </form>
                 </div>
             </div>
+            <ToastContainer />
         </main>
     );
 };

@@ -5,7 +5,7 @@ import LoginWidget from "../LoginWidget/LoginWidget";
 import "./NavBar.css";
 import { CartWidget } from '../CartWidget/CartWidget';
 import { ChatWidget } from '../ChatWidget/ChatWidget';
-import { RealTimeProductsWidget } from '../RealTimeProductsWidget/RealTimeProductsWidget';
+import UserInfoWidget from '../UserInfoWidget/UserInfoWidget'; // Importar UserInfoWidget
 
 export const NavBar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -45,23 +45,13 @@ export const NavBar = () => {
               <button className="close-button" style={{ width: '10px' }} onClick={closeOffcanvas}>
                 <img src="../img/cerrar-cruz.png" alt="" />
               </button>
-              <div className='userInfo'>
-                <h5>{user.first_name} {user.last_name}</h5>
-                <h6>Email: {user.email}</h6>
-                <h6>Role: {user.role}</h6>
-              </div>
-              <div className='containerBtn'>
-              
-                {user.role === 'admin' && <RealTimeProductsWidget />}
-            
-              <button  className='btnUser' onClick={handleLogout}>Cerrar sesión</button>
+              <UserInfoWidget user={user} handleLogout={handleLogout} />
             </div>
-          </div>
-      </>
-      ) : (
-      <LoginWidget />
+          </>
+        ) : (
+          <LoginWidget />
         )}
-    </div>
+      </div>
     </header >
   );
 };
