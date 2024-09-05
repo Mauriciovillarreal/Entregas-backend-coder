@@ -24,6 +24,10 @@ class UsersDaoMongo {
     async update(uid, updateUser, updateData) {
         return await this.model.findByIdAndUpdate(uid, updateUser, updateData , { new: true })
     }
+
+    async delete(uid) {
+        return await this.model.findByIdAndDelete(uid)
+    }
 }
 
 module.exports = UsersDaoMongo

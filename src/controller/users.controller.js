@@ -3,6 +3,8 @@ const { userService } = require('../service/index.js')
 const { CustomError } = require('../service/errors/CustomError.js')
 const { EErrors } = require('../service/errors/enums.js')
 const { generateUserErrorInfo } = require('../service/errors/info.js')
+const { sendEmail } = require('../utils/sendEmail.js')
+const { usersModel } = require('../dao/MONGO/models/users.model.js')
 
 class UserController {
     constructor() {
@@ -11,12 +13,19 @@ class UserController {
 
     getUsers = async (req, res, next) => {
         try {
-            const users = await this.usersService.getUsers()
-            res.send(users)
+            const users = await this.usersService.getUsers();
+            
+            // Asegúrate de que se envíen los usuarios correctamente en el formato esperado
+            if (!users || users.length === 0) {
+                return res.status(404).json({ status: 'error', message: 'No users found' });
+            }
+    
+            res.status(200).json({ status: 'success', data: users });
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
+    
 
     getUser = async (req, res, next) => {
         const { uid } = req.params
@@ -64,6 +73,57 @@ class UserController {
             next(error)
         }
     }
+
+    deleteInactiveUsers = async (req, res, next) => {
+        const inactivityLimit = 30 * 60 * 1000; // 30 minutos en milisegundos (ajustar a 2 días = 2 * 24 * 60 * 60 * 1000)
+        const now = new Date();
+    
+        try {
+            // Buscar usuarios cuya última conexión fue hace más de 30 minutos
+            const inactiveUsers = await usersModel.find({
+                last_connection: { $lt: new Date(now - inactivityLimit) },
+            });
+    
+            if (inactiveUsers.length === 0) {
+                return res.status(200).json({
+                    status: 'success',
+                    message: 'No hay usuarios inactivos para eliminar.',
+                });
+            }
+    
+            // Eliminar los usuarios inactivos
+            const deletedUsers = [];
+            for (const user of inactiveUsers) {
+                await usersModel.findByIdAndDelete(user._id);
+                deletedUsers.push(user.email);
+            
+                console.log(`Procesando el usuario: ${user.fullname} con email: ${user.email}`);
+            
+                // Validar que el correo exista y tenga un formato válido antes de intentar enviarlo
+                if (user.email && /\S+@\S+\.\S+/.test(user.email)) {
+                    await sendEmail({
+                        userMail: user.email,
+                        subject: 'Cuenta eliminada por inactividad',
+                        html: `<p>Hola ${user.fullname}, tu cuenta ha sido eliminada debido a la inactividad. Si deseas más información, contacta con soporte.</p>`,
+                    });
+                    console.log(`Correo enviado a: ${user.email}`);
+                } else {
+                    console.log(`Usuario con ID ${user._id} no tiene un correo electrónico válido.`);
+                }
+                
+            }
+            
+    
+            res.status(200).json({
+                status: 'success',
+                message: `Se han eliminado ${deletedUsers.length} usuarios inactivos.`,
+                deletedUsers,
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
+    
 
     toggleUserRole = async (req, res, next) => {
         const { uid } = req.params
@@ -141,6 +201,40 @@ class UserController {
         }
     }
 
+    deleteUser = async (req, res, next) => {
+        const { uid } = req.params; // Obtenemos el id del usuario desde los parámetros de la URL
+    
+        try {
+            // Verificamos si el UID es válido
+            if (!mongoose.Types.ObjectId.isValid(uid)) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'ID de usuario no válido.',
+                });
+            }
+    
+            // Buscamos el usuario por su ID
+            const user = await this.usersService.getUser(uid);
+            if (!user) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: 'Usuario no encontrado.',
+                });
+            }
+    
+            // Eliminamos al usuario
+            await this.usersService.deleteUser(uid);
+    
+            // Respondemos con éxito
+            res.status(200).json({
+                status: 'success',
+                message: `Usuario con ID ${uid} ha sido eliminado exitosamente.`,
+            });
+        } catch (error) {
+            next(error); // Pasamos el error al middleware de manejo de errores
+        }
+    }
+    
 }
 
 module.exports = UserController
